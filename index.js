@@ -1,12 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
+import { initializeApp } from "https://automotores-el-poly-default-rtdb.firebaseio.com"
 import {
     getDatabase,
     ref,
     push,
     set,
     onValue
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+} from "https://console.firebase.google.com/u/1/project/automotores-el-poly/database/automotores-el-poly-default-rtdb/data/~2F?hl=es-419&fb_gclid=CjwKCAiAzKvXBhBAEiwABLl9AsqEj2curSqEHRLi2Rn0JL4jrFPafPCcOa21fiphfN8qi_DM0-34NBoC3c4QAvD_BwE&fb_utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&fb_utm_content=text-ad&fb_utm_medium=cpc&fb_utm_source=google&fb_utm_term=KW_firebase";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBaxw5yP-JZAV7IFtlWtjXSlIo85v4w8js",
@@ -28,20 +27,26 @@ let modelo = document.querySelector("#modelo");
 let año = document.querySelector("#año");
 let precio = document.querySelector("#precio");
 let imagen = document.querySelector("#imagen");
+
 let btnAgregar = document.querySelector("#btnAgregar");
 let buscar = document.querySelector("#buscar");
 let resultados = document.querySelector("#resultados");
+let tablaAutos = document.querySelector("#tablaAutos");
+
 let autosCargados = {};
-btnAgregar.addEventListener("click", function () {
+
+btnAgregar.onclick = function () {
+
     if (
         marca.value.trim() === "" ||
         modelo.value.trim() === "" ||
         año.value === "" ||
         precio.value === ""
     ) {
-        alert("Completa marca, modelo, año y precio.");
+        alert("Completa todos los datos.");
         return;
     }
+
     let nuevoAuto = push(autosRef);
 
     set(nuevoAuto, {
@@ -52,6 +57,7 @@ btnAgregar.addEventListener("click", function () {
         imagen: imagen.value.trim()
     })
     .then(function () {
+
         alert("Auto agregado correctamente.");
 
         marca.value = "";
@@ -59,33 +65,39 @@ btnAgregar.addEventListener("click", function () {
         año.value = "";
         precio.value = "";
         imagen.value = "";
+
     })
     .catch(function (error) {
+
         console.error(error);
-        alert("Error al guardar el auto: " + error.message);
+        alert("Error al guardar el auto.");
+
     });
 
-});
+};
 
 onValue(autosRef, function (snapshot) {
 
     autosCargados = snapshot.val() || {};
+
     mostrarAutos();
 
 }, function (error) {
 
     console.error(error);
-    resultados.innerHTML = "<p>Error al cargar los autos de Firebase.</p>";
+    resultados.innerHTML = "<p>Error al cargar los autos.</p>";
 
 });
 
-buscar.addEventListener("input", mostrarAutos);
+buscar.oninput = mostrarAutos;
 
 function mostrarAutos() {
 
     let texto = buscar.value.toLowerCase().trim();
 
     resultados.innerHTML = "";
+    tablaAutos.innerHTML = "";
+
     let encontrados = 0;
 
     for (let id in autosCargados) {
@@ -95,6 +107,18 @@ function mostrarAutos() {
         let marcaAuto = (auto.marca || "").toLowerCase();
         let modeloAuto = (auto.modelo || "").toLowerCase();
         let añoAuto = String(auto.año || "");
+
+        tablaAutos.innerHTML += `
+            <tr>
+                <td>${auto.marca}</td>
+                <td>${auto.modelo}</td>
+                <td>${auto.año}</td>
+                <td>$${auto.precio}</td>
+                <td>
+                    ${auto.imagen ? `<img src="${auto.imagen}" width="80">` : "Sin imagen"}
+                </td>
+            </tr>
+        `;
 
         if (
             marcaAuto.includes(texto) ||
@@ -112,7 +136,9 @@ function mostrarAutos() {
             `;
 
             encontrados++;
+
         }
+
     }
 
     if (encontrados === 0) {
@@ -120,6 +146,13 @@ function mostrarAutos() {
     }
 
 }
+
+
+
+
+
+
+
 
 
 
