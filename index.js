@@ -1,22 +1,17 @@
-import { initializeApp } from "https://automotores-el-poly-default-rtdb.firebaseio.com"
-import {
-    getDatabase,
-    ref,
-    push,
-    set,
-    onValue
-} from "https://console.firebase.google.com/u/1/project/automotores-el-poly/database/automotores-el-poly-default-rtdb/data/~2F?hl=es-419&fb_gclid=CjwKCAiAzKvXBhBAEiwABLl9AsqEj2curSqEHRLi2Rn0JL4jrFPafPCcOa21fiphfN8qi_DM0-34NBoC3c4QAvD_BwE&fb_utm_campaign=Cloud-SS-DR-Firebase-FY26-global-gsem-1713590&fb_utm_content=text-ad&fb_utm_medium=cpc&fb_utm_source=google&fb_utm_term=KW_firebase";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBaxw5yP-JZAV7IFtlWtjXSlIo85v4w8js",
     authDomain: "automotores-el-poly.firebaseapp.com",
-    databaseURL: "PEGAR_AQUI_LA_URL_DE_REALTIME_DATABASE",
+    databaseURL: "https://automotores-el-poly-default-rtdb.firebaseio.com",
     projectId: "automotores-el-poly",
     storageBucket: "automotores-el-poly.firebasestorage.app",
     messagingSenderId: "974864685672",
     appId: "1:974864685672:web:263801ea20629ead3f79dd",
     measurementId: "G-VJBVL67YWK"
-};
+  };
+  
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -146,6 +141,17 @@ function mostrarAutos() {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
