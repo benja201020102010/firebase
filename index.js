@@ -1,5 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBaxw5yP-JZAV7IFtlWtjXSlIo85v4w8js",
@@ -10,8 +17,7 @@ const firebaseConfig = {
     messagingSenderId: "974864685672",
     appId: "1:974864685672:web:263801ea20629ead3f79dd",
     measurementId: "G-VJBVL67YWK"
-  };
-  
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -50,8 +56,7 @@ btnAgregar.onclick = function () {
         año: año.value,
         precio: precio.value,
         imagen: imagen.value.trim()
-    })
-    .then(function () {
+    }).then(function () {
 
         alert("Auto agregado correctamente.");
 
@@ -61,10 +66,9 @@ btnAgregar.onclick = function () {
         precio.value = "";
         imagen.value = "";
 
-    })
-    .catch(function (error) {
+    }).catch(function (error) {
 
-        console.error(error);
+        console.log(error);
         alert("Error al guardar el auto.");
 
     });
@@ -74,12 +78,11 @@ btnAgregar.onclick = function () {
 onValue(autosRef, function (snapshot) {
 
     autosCargados = snapshot.val() || {};
-
     mostrarAutos();
 
 }, function (error) {
 
-    console.error(error);
+    console.log(error);
     resultados.innerHTML = "<p>Error al cargar los autos.</p>";
 
 });
@@ -103,18 +106,6 @@ function mostrarAutos() {
         let modeloAuto = (auto.modelo || "").toLowerCase();
         let añoAuto = String(auto.año || "");
 
-        tablaAutos.innerHTML += `
-            <tr>
-                <td>${auto.marca}</td>
-                <td>${auto.modelo}</td>
-                <td>${auto.año}</td>
-                <td>$${auto.precio}</td>
-                <td>
-                    ${auto.imagen ? `<img src="${auto.imagen}" width="80">` : "Sin imagen"}
-                </td>
-            </tr>
-        `;
-
         if (
             marcaAuto.includes(texto) ||
             modeloAuto.includes(texto) ||
@@ -130,10 +121,20 @@ function mostrarAutos() {
                 </div>
             `;
 
+            tablaAutos.innerHTML += `
+                <tr>
+                    <td>${auto.marca}</td>
+                    <td>${auto.modelo}</td>
+                    <td>${auto.año}</td>
+                    <td>$${auto.precio}</td>
+                    <td>
+                        ${auto.imagen ? `<img src="${auto.imagen}" width="80">` : "Sin imagen"}
+                    </td>
+                </tr>
+            `;
+
             encontrados++;
-
         }
-
     }
 
     if (encontrados === 0) {
@@ -141,18 +142,6 @@ function mostrarAutos() {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
