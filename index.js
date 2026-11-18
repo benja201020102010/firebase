@@ -1,5 +1,5 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
 import {
     getDatabase,
     ref,
@@ -36,7 +36,9 @@ let tablaAutos = document.querySelector("#tablaAutos");
 
 let autosCargados = {};
 
-btnAgregar.onclick = function () {
+let btnAgregar = document.querySelector("#btnAgregar");
+
+console.log("BOTON AGREGAR PRESIONADO");
 
     if (
         marca.value.trim() === "" ||
@@ -44,7 +46,7 @@ btnAgregar.onclick = function () {
         año.value === "" ||
         precio.value === ""
     ) {
-        alert("Completa todos los datos.");
+        alert("Complea todos los datos.");
         return;
     }
 
