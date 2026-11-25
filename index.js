@@ -28,6 +28,7 @@ let modelo = document.querySelector("#modelo");
 let año = document.querySelector("#año");
 let precio = document.querySelector("#precio");
 let imagen = document.querySelector("#imagen");
+let color = document.querySelector("#color") 
 
 let btnAgregar = document.querySelector("#btnAgregar");
 let buscar = document.querySelector("#buscar");
@@ -36,9 +37,9 @@ let tablaAutos = document.querySelector("#tablaAutos");
 
 let autosCargados = {};
 
-let btnAgregar = document.querySelector("#btnAgregar");
 
-console.log("BOTON AGREGAR PRESIONADO");
+btnAgregar.onclick = function () {
+    console.log("BOTON AGREGAR PRESIONADO");
 
     if (
         marca.value.trim() === "" ||
@@ -46,36 +47,39 @@ console.log("BOTON AGREGAR PRESIONADO");
         año.value === "" ||
         precio.value === ""
     ) {
-        alert("Complea todos los datos.");
-        return;
+        alert("Complta todos los datos.");
+
+    } else {
+        let nuevoAuto = push(autosRef);
+
+        set(nuevoAuto, {
+            marca: marca.value.trim(),
+            modelo: modelo.value.trim(),
+            año: año.value,
+            precio: precio.value,
+            imagen: imagen.value.trim(),
+            color: color.value.trim()
+        }) 
+            .then(function () {
+
+                alert("Auto agregad correctamente.");
+
+                marca.value = "";
+                modelo.value = "";
+                año.value = "";
+                precio.value = "";
+                imagen.value = "";
+                color.value= ""; 
+            })
+            .catch(function (error) {
+
+                console.log(error);
+                alert("Error al guardar el auto.");
+
+            })
     }
+}
 
-    let nuevoAuto = push(autosRef);
-
-    set(nuevoAuto, {
-        marca: marca.value.trim(),
-        modelo: modelo.value.trim(),
-        año: año.value,
-        precio: precio.value,
-        imagen: imagen.value.trim()
-    }).then(function () {
-
-        alert("Auto agregado correctamente.");
-
-        marca.value = "";
-        modelo.value = "";
-        año.value = "";
-        precio.value = "";
-        imagen.value = "";
-
-    }).catch(function (error) {
-
-        console.log(error);
-        alert("Error al guardar el auto.");
-
-    });
-
-};
 
 onValue(autosRef, function (snapshot) {
 
@@ -132,6 +136,7 @@ function mostrarAutos() {
                     <td>
                         ${auto.imagen ? `<img src="${auto.imagen}" width="80">` : "Sin imagen"}
                     </td>
+                    <td>$${auto.color}</td>
                 </tr>
             `;
 
@@ -144,6 +149,11 @@ function mostrarAutos() {
     }
 
 }
+
+
+
+
+
 
 
 
